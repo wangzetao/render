@@ -13,8 +13,7 @@
         }
 
         td,
-        .button,
-        input {
+        .button {
             border-radius: 5px;
             box-shadow: 5px 5px 15px #aaa;
         }
@@ -91,10 +90,14 @@
         }
 
         input {
+            width: 6rem;
             height: 1.2rem;
-            font-size: 1rem;
-            width: 5rem;
-            border-color: #333;
+            font-size: 0.8rem;
+            border: 1px solid rgba(0, 0, 0, 0.6);
+            border-radius: 12.5px;
+            color: rgba(0, 0, 0, 0.6);
+            text-align: center;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -144,7 +147,7 @@
                 data = JSON.parse(data);
                 var keys = Object.keys(data);
                 for (var k = 0; k < keys.length; k++) {
-                    content += `<tr><td>${k+1}</td><td>${keys[k]}</td><td>${data[keys[k]]}</td></tr>`;
+                    content += `<tr><td>${k + 1}</td><td>${keys[k]}</td><td>${data[keys[k]]}</td></tr>`;
                 }
                 $("#rank").html(content);
             })
