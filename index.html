@@ -1,11 +1,89 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-    </head>
-    <body>
-        <h1>
-            aaa
-        </h1>
-    </body>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        html {
+            font-family: Sans-Regular;
+            font-size: 24px;
+            text-align: center;
+            color: #333;
+        }
+
+        td {
+            border-radius: 5px;
+            box-shadow: 5px 5px 15px #aaa;
+        }
+
+        td {
+            text-align: center;
+            padding: 0.6em;
+            font-size: 1em;
+            background-color: #eee;
+        }
+
+        #button-container {
+            width: 60%;
+            left: 0;
+        }
+
+        #rank-container {
+            width: 40%;
+            right: 0;
+        }
+
+        #head {
+            position: absolute;
+            width: 100%;
+            height: 25%;
+        }
+
+        .col {
+            position: absolute;
+            height: 75%;
+            bottom: 0;
+            display: inline-block;
+        }
+
+        .col div, .col table {
+            display: inline-block;
+            margin: 5px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="head">
+        <h1> Abc </h1>
+    </div>
+    <div id="button-container" class="col">
+        <center>
+            <div> 111111111 </div>
+        </center>
+    </div>
+    <div id="rank-container" class="col">
+        <table>
+            <thead>
+                <tr>
+                    <td> 名字 </td>
+                    <td> 分数 </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>111</td>
+                    <td>222</td>
+                </tr>
+                <tr>
+                    <td>333</td>
+                    <td>444</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</body>
+
 </html>
