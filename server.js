@@ -14,6 +14,8 @@ const urlencodedParser = bodyParser.urlencoded({ extended: false })
     "AI": 1,
 }
 */
+if(!fs.existsSync("data.json")) fs.writeFileSync("data.json", "{}");
+
 var data = JSON.parse(fs.readFileSync("data.json"));
 
 app.get('/', function (req, res) {
