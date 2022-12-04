@@ -12,7 +12,9 @@
             color: #333;
         }
 
-        td {
+        td,
+        .button,
+        input {
             border-radius: 5px;
             box-shadow: 5px 5px 15px #aaa;
         }
@@ -21,7 +23,22 @@
             text-align: center;
             padding: 0.6em;
             font-size: 1em;
-            background-color: #eee;
+            background-color: hsl(0, 0%, 90%);
+        }
+
+        tbody tr:nth-child(1) td {
+            background-image: linear-gradient(135deg, hsl(51, 100%, 80%) 0% 20%, hsl(51, 100%, 50%));
+            box-shadow: 5px 5px 15px hsl(51, 100%, 80%);
+        }
+
+        tbody tr:nth-child(2) td {
+            background-image: linear-gradient(135deg, hsl(0, 0%, 100%) 0% 30%, hsl(0, 0%, 85%));
+            box-shadow: 5px 5px 15px hsl(0, 0%, 86%);
+        }
+
+        tbody tr:nth-child(3) td {
+            background-image: linear-gradient(135deg, hsl(170, 13%, 90%), hsl(170, 13%, 70%));
+            box-shadow: 5px 5px 15px hsl(170, 5%, 70%);
         }
 
         #button-container {
@@ -47,43 +64,123 @@
             display: inline-block;
         }
 
-        .col div, .col table {
+        .col div,
+        .col table {
+            margin: 1rem auto;
+        }
+
+        .col table {
             display: inline-block;
-            margin: 5px auto;
+        }
+
+        .button {
+            text-decoration: none;
+            white-space: nowrap;
+            margin: 1rem 0.5rem;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 15px;
+            padding-right: 15px;
+            color: white;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+
+        .bold {
+            font-weight: bolder;
+        }
+
+        input {
+            height: 1.2rem;
+            font-size: 1rem;
+            width: 5rem;
+            border-color: #333;
         }
     </style>
 </head>
 
 <body>
     <div id="head">
-        <h1> Abc </h1>
+        <h1> CPS 测试 </h1>
+        <h3> Click Per Second </h3>
     </div>
     <div id="button-container" class="col">
-        <center>
-            <div> 111111111 </div>
-        </center>
+        <div>
+            <a class="button" href="javascript:click()" style="background-color: dodgerblue;">戳我</a>
+        </div>
+        <div>
+            <span id="cnt" class="bold"> 0 </span> 次
+            / 剩余 <span id="timeLeft" class="bold"> 5 </span> 秒
+            <a class="button" href="javascript:reset()" style="background-color: tomato;">重置</a>
+        </div>
+        <div>
+            <label for="name"> 名字: </label>
+            <input id="name" name="name" type="text" />
+            <a class="button" href="javascript:submit()" style="background-color: cadetblue;">提交</a>
+        </div>
     </div>
     <div id="rank-container" class="col">
         <table>
             <thead>
                 <tr>
+                    <td> 排名 </td>
                     <td> 名字 </td>
                     <td> 分数 </td>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>111</td>
-                    <td>222</td>
-                </tr>
-                <tr>
-                    <td>333</td>
-                    <td>444</td>
-                </tr>
+            <tbody id="rank">
             </tbody>
 
         </table>
     </div>
+    <script>
+        var cnt = 0;
+        var timeLeft = 5;
+        var timer = null;
+        updateRank();
+        function updateRank() {
+            $.post("/get", function (data, status) {
+                var content = '';
+                data = JSON.parse(data);
+                var keys = Object.keys(data);
+                for (var k = 0; k < keys.length; k++) {
+                    content += `<tr><td>${k+1}</td><td>${keys[k]}</td><td>${data[keys[k]]}</td></tr>`;
+                }
+                $("#rank").html(content);
+            })
+        }
+        function updateTime() {
+            timeLeft -= 1;
+            $("#timeLeft").text(timeLeft);
+            if (timeLeft == 0) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+        function click() {
+            if (timeLeft == 0) return;
+            if (cnt == 0) { // 第一次
+                timer = setInterval(updateTime, 1000);
+            }
+            cnt++;
+            $("#cnt").text(cnt);
+        }
+        function reset() {
+            cnt = 0;
+            timeLeft = 5;
+            $("#cnt").text(cnt);
+            $("#timeLeft").text(timeLeft);
+        }
+        function submit() {
+            if (cnt == 0) alert("未开始游戏");
+            else if ($("#name").val() == "") alert("名字不能为空");
+            else $.post("/set", {
+                name: $("#name").val(),
+                score: cnt
+            });
+            updateRank();
+        }
+    </script>
 </body>
 
 </html>
