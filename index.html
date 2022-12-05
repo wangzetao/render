@@ -145,9 +145,8 @@
             $.post("/get", function (data, status) {
                 var content = '';
                 data = JSON.parse(data);
-                var keys = Object.keys(data);
-                for (var k = 0; k < keys.length; k++) {
-                    content += `<tr><td>${k + 1}</td><td>${keys[k]}</td><td>${data[keys[k]]}</td></tr>`;
+                for (var k = 0; k < data.length; k++) {
+                    content += `<tr><td>${k + 1}</td><td>${data[k].name}</td><td>${data[k].score}</td></tr>`;
                 }
                 $("#rank").html(content);
             })
@@ -180,8 +179,7 @@
             else $.post("/set", {
                 name: $("#name").val(),
                 score: cnt
-            });
-            updateRank();
+            }).then(updateRank);
         }
     </script>
 </body>
